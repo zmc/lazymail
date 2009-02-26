@@ -18,5 +18,12 @@ class Idler
     end
 end
 
-$i = Idler.new(ask('Login: '), getPasswd)
-$i.check
+def main
+    $i = Idler.new(ask('Login: '), getPasswd)
+    $i.check
+    sleep
+end
+
+if __FILE__ == $0
+    main
+end
