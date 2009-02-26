@@ -71,7 +71,10 @@ class Idler
         end
         startIdle
         @unseen = unseen
-        return @msgInfo
+        inform
+    end
+
+    def inform
     end
 
 end
