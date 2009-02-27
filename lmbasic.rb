@@ -16,7 +16,6 @@ class Notifier
     def initialize
         case detectOS
         when MAC
-            #require 'growl' # gem growlnotifier
             @growl = Growl::Notifier.sharedInstance
             @type = 'mail'
             @growl.register('Idler', [@type])
@@ -26,6 +25,8 @@ class Notifier
     def detectOS
         if RUBY_PLATFORM =~ /darwin/
             @os = MAC
+        else
+            @os = LINUX
         end
         return @os
     end
@@ -38,7 +39,8 @@ class Notifier
             system("notify-send", 
                    "-i", "mail-unread", 
                    "-t", "2500", 
-                   "New mail!", "\"#{body}\"")
+                   "New mail!", body.gsub(/\n/, ""))
+            puts body
         end
     end
 end
@@ -49,7 +51,7 @@ class Idler
         @msgInfo.values.each do |msg|
             body = [body,
             "#{msg['FROM']}", 
-            "#{msg['SUBJECT']}",
+            "  #{msg['SUBJECT']}",
             "  #{msg['DATE']}",
             ""
             ].join("\n")
