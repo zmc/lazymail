@@ -35,6 +35,7 @@ class Notifier
         msgs.values.each do |msg|
             body += "#{msg.to_s}\n\n"
         end
+        body.strip!
         case @os
         when MAC
             @growl.notify(@type, @@title, body)
@@ -42,7 +43,7 @@ class Notifier
             system("notify-send", 
                    "-i", "mail-unread", 
                    "-t", "2500", 
-                   "New mail!", body.gsub(/\n/, ""))
+                   "New mail!", body)
         end
     end
 end
