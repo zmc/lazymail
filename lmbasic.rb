@@ -2,7 +2,7 @@ require 'rubygems'
 require 'lmcli'
 
 begin
-    require 'growl'
+    require 'growl' # gem install growlnotifier
 rescue LoadError
 end
 
