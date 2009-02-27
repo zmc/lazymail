@@ -49,7 +49,7 @@ class Idler
     def check
         stopIdle if @idle
         msgIDs = @imap.uid_search("UNSEEN")
-        puts "*** #{unseen} unread ***" if $DBUG
+        puts "*** #{unseen} unread ***" if $DEBUG
         unseen = msgIDs.length
         @msgInfo.delete_if { |k, v| not msgIDs.member? k }
         msgIDs.delete_if { |id| @msgInfo.keys.member? id  }
