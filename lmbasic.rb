@@ -6,8 +6,8 @@ begin
 rescue LoadError
 end
 
-MAC = 'mac'
-LINUX = 'linux'
+Mac = 'turtleneck'
+Linux = 'tux'
 
 class Notifier
     @@title = 'New mail!'
@@ -15,7 +15,7 @@ class Notifier
     def initialize
         @seen = []
         case detectOS
-        when MAC
+        when Mac
             @growl = Growl::Notifier.sharedInstance
             @type = 'mail'
             @growl.register('Idler', [@type])
@@ -24,9 +24,9 @@ class Notifier
 
     def detectOS
         if RUBY_PLATFORM =~ /darwin/
-            @os = MAC
+            @os = Mac
         else
-            @os = LINUX
+            @os = Linux
         end
         return @os
     end
@@ -42,9 +42,9 @@ class Notifier
         body.strip!
         return if body.length == 0
         case @os
-        when MAC
+        when Mac
             @growl.notify(@type, @@title, body)
-        when LINUX
+        when Linux
             body.gsub!(/&/,"&amp;")
             body.gsub!(/"/,"&quot;")
             body.gsub!(/</,"&lt;")
