@@ -53,7 +53,7 @@ class Notifier
                    "-c", "email.arrived",
                    "-i", "mail-unread", 
                    "-t", "5000", 
-                   "New mail!", body)
+                   @title, body)
         end
     end
 end
