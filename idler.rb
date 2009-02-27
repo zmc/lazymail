@@ -1,10 +1,12 @@
 require 'net_imap_idle'
 require 'time'
+require 'messageinfo'
 #require 'pp'
 #$DEBUG = true
 
 class Idler
-    attr_reader :imap, :idle, :unseen, :msgInfo
+    attr_reader :imap, :idle, :unseen, :msgInfo, :notifier
+    attr_writer :notifier
     @@host = 'imap.gmail.com'
     @@port = 993
 
@@ -15,6 +17,7 @@ class Idler
         login
         @unseen = 0
         @msgInfo = {}
+        @notifier = nil
         addHandler
     end
 
@@ -65,8 +68,7 @@ class Idler
                 else
                     from = "#{f.mailbox}@#{f.host}"
                 end
-                @msgInfo[uid] = {"FROM" => from, "DATE" => date, 
-                    "SUBJECT" => subj }
+                @msgInfo[uid] = MessageInfo.new(date, from, subj, uid)
             end
         end
         startIdle
@@ -75,6 +77,9 @@ class Idler
     end
 
     def inform
+        if (@msgInfo.keys.length > 0) and @notifier
+            @notifier.notify(@msgInfo)
+        end
     end
 
 end

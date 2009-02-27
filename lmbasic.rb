@@ -30,7 +30,11 @@ class Notifier
         return @os
     end
 
-    def notify(body)
+    def notify(msgs)
+        body = ""
+	msgs.values.each do |msg|
+            body += "#{msg.to_s}\n\n"
+        end
         case @os
         when MAC
             @growl.notify(@type, @@title, body)
@@ -39,32 +43,13 @@ class Notifier
                    "-i", "mail-unread", 
                    "-t", "2500", 
                    "New mail!", body.gsub(/\n/, ""))
-            puts body
-        end
-    end
-end
-
-class Idler
-    def inform
-        body = ""
-        @msgInfo.values.each do |msg|
-            body = [body,
-            "#{msg['FROM']}", 
-            "  #{msg['SUBJECT']}",
-            "  #{msg['DATE']}",
-            ""
-            ].join("\n")
-        end
-        body.strip!
-        if body.length > 0
-            $n.notify(body)
         end
     end
 end
 
 def main
-    $n = Notifier.new
     $i = Idler.new(ask('Login: '), getPasswd)
+    $i.notifier = Notifier.new
     $i.check
     sleep
 end
