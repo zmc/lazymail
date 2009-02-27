@@ -13,6 +13,7 @@ class Notifier
     @@title = 'New mail!'
 
     def initialize
+        @seen = []
         case detectOS
         when MAC
             @growl = Growl::Notifier.sharedInstance
@@ -33,9 +34,13 @@ class Notifier
     def notify(msgs)
         body = ""
         msgs.values.each do |msg|
-            body += "#{msg.to_s}\n\n"
+            if not @seen.member? msg.uid
+                body += "#{msg.to_s}\n\n"
+                @seen << msg.uid
+            end
         end
         body.strip!
+        return if body.length == 0
         case @os
         when MAC
             @growl.notify(@type, @@title, body)
