@@ -40,9 +40,14 @@ class Notifier
         when MAC
             @growl.notify(@type, @@title, body)
         when LINUX
+            body.gsub!(/&/,"&amp;")
+            body.gsub!(/"/,"&quot;")
+            body.gsub!(/</,"&lt;")
+            body.gsub!(/>/,"&gt;")
             system("notify-send", 
+                   "-c", "email.arrived",
                    "-i", "mail-unread", 
-                   "-t", "2500", 
+                   "-t", "5000", 
                    "New mail!", body)
         end
     end
