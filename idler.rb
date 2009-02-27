@@ -1,8 +1,6 @@
 require 'net_imap_idle'
 require 'time'
 require 'messageinfo'
-#require 'pp'
-#$DEBUG = true
 
 class Idler
     attr_reader :imap, :idle, :unseen, :msgInfo, :notifier

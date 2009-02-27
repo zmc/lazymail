@@ -9,7 +9,7 @@ end
 class CLINotifier
     def notify(msgs)
         body = ""
-	msgs.values.each do |msg|
+        msgs.values.each do |msg|
             body += "#{msg.to_s}\n\n"
         end
         puts body
