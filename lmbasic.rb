@@ -11,7 +11,6 @@ LINUX = 'linux'
 
 class Notifier
     @@title = 'New mail!'
-    attr_reader :growl
 
     def initialize
         case detectOS
