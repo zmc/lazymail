@@ -3,7 +3,7 @@ require 'lmcli'
 
 begin
     require 'growl'
-rescue
+rescue LoadError
 end
 
 MAC = 'mac'
