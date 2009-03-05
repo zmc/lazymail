@@ -76,7 +76,7 @@ class Idler
 
     def inform
         if (@msgInfo.keys.length > 0) and @notifier
-            @notifier.notify(@msgInfo)
+            @notifier.notify(@msgInfo.values.sort{|a,b| a.uid <=> b.uid}.reverse)
         end
     end
 
