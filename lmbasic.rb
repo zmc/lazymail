@@ -1,68 +1,27 @@
-require 'rubygems'
+require 'notifier'
+require 'linux_notifier'
+require 'mac_notifier'
 require 'lmcli'
-
-begin
-    require 'growl' # gem install growlnotifier
-rescue LoadError
-end
 
 Mac = 'turtleneck'
 Linux = 'tux'
 
-class Notifier
-    @@title = 'New mail!'
-
-    def initialize
-        @seen = []
-        case detectOS
-        when Mac
-            @growl = Growl::Notifier.sharedInstance
-            @type = 'mail'
-            @growl.register('Idler', [@type])
-        end
-    end
-
-    def detectOS
-        if RUBY_PLATFORM =~ /darwin/
-            @os = Mac
-        else
-            @os = Linux
-        end
-        return @os
-    end
-
-    def notify(msgs)
-        body = ""
-        msgs.values.each do |msg|
-            if not @seen.member? msg.uid
-                body += "#{msg.to_s}\n\n"
-                @seen << msg.uid
-            end
-        end
-        body.strip!
-        return if body.length == 0
-        case @os
-        when Mac
-            @growl.notify(@type, @@title, body)
-        when Linux
-            body.gsub!(/&/,"&amp;")
-            body.gsub!(/"/,"&quot;")
-            body.gsub!(/</,"&lt;")
-            body.gsub!(/>/,"&gt;")
-            system("notify-send", 
-                   "-c", "email.arrived",
-                   "-i", "mail-unread", 
-                   "-t", "5000", 
-                   @@title, body)
-        end
-    end
+if RUBY_PLATFORM =~ /darwin/
+    $OS = Mac
+else
+    $OS = Linux
 end
 
 def main
     $i = Idler.new(ask('Login: '), getPasswd)
-    $i.notifier = Notifier.new
+    case $OS
+    when Mac
+        $i.notifier = MacNotifier.new
+    when Linux
+        $i.notifier = LinuxNotifier.new
+    end
     $i.check
-    sleep
+    Gtk.main if $OS == Linux
 end
 
 if __FILE__ == $0
