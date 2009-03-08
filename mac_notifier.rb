@@ -1,15 +1,12 @@
 require 'notifier'
 require 'rubygems'
-
-begin
-    require 'growl' # gem install growlnotifier
-rescue LoadError
-end
+require 'growl' # gem install growlnotifier
 
 class MacNotifier < Notifier
-    def initialize
-        super
-        @growl = Growl::Notifier.sharedInstance
+    def initialize(appController)
+        super()
+		@appController = appController
+		@growl = Growl::Notifier.sharedInstance
         @type = 'mail'
         @growl.register('Idler', [@type])
     end
@@ -24,6 +21,7 @@ class MacNotifier < Notifier
         end
         body.strip!
         return if body.length == 0
+		@appController.notify(msgs)
         @growl.notify(@type, @@title, body)
     end
 end
