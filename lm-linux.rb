@@ -1,27 +1,17 @@
 require 'notifier'
 require 'linux_notifier'
-require 'mac_notifier'
-require 'lmcli'
+require 'rubygems'
+require 'highline/import'
 
-Mac = 'turtleneck'
-Linux = 'tux'
-
-if RUBY_PLATFORM =~ /darwin/
-    $OS = Mac
-else
-    $OS = Linux
+def getPasswd(prompt = 'Password: ')
+    ask(prompt) { |q| q.echo = false }
 end
 
 def main
     $i = Idler.new(ask('Login: '), getPasswd)
-    case $OS
-    when Mac
-        $i.notifier = MacNotifier.new
-    when Linux
-        $i.notifier = LinuxNotifier.new
-    end
+    $i.notifier = LinuxNotifier.new
     $i.check
-    Gtk.main if $OS == Linux
+    Gtk.main
 end
 
 if __FILE__ == $0
