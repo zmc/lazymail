@@ -25,6 +25,10 @@ class Idler
         @imap.examine(@inbox)
         @imap.subscribe(@inbox)
     end
+	
+	def disconnect
+		@imap.disconnect
+	end
 
     def startIdle
         @imap.idle
