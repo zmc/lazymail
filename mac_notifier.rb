@@ -5,8 +5,8 @@ require 'growl' # gem install growlnotifier
 class MacNotifier < Notifier
     def initialize(appController)
         super()
-		@appController = appController
-		@growl = Growl::Notifier.sharedInstance
+        @appController = appController
+        @growl = Growl::Notifier.sharedInstance
         @type = 'mail'
         @growl.register('Idler', [@type])
     end
@@ -20,7 +20,7 @@ class MacNotifier < Notifier
             end
         end
         body.strip!
-		@appController.notify(msgs)
+        @appController.notify(msgs)
         return if body.length == 0
         @growl.notify(@type, @@title, body)
     end
