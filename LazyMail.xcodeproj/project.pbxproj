@@ -66,6 +66,10 @@
 			children = (
 				140FBE940F6461F90079A720 /* LMPreferencesWindow.rb */,
 				140FBCFE0F5F64D90079A720 /* ApplicationController.rb */,
+				140FBE680F645B470079A720 /* mac_notifier.rb */,
+				140FBE690F645B470079A720 /* messageinfo.rb */,
+				140FBE670F645B470079A720 /* idler.rb */,
+				140FBE6B0F645B470079A720 /* notifier.rb */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -123,11 +127,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				140FBE670F645B470079A720 /* idler.rb */,
-				140FBE680F645B470079A720 /* mac_notifier.rb */,
-				140FBE690F645B470079A720 /* messageinfo.rb */,
 				140FBE6A0F645B470079A720 /* net_imap_idle.rb */,
-				140FBE6B0F645B470079A720 /* notifier.rb */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				E8F5E25803AEB7C803A81C6F /* rb_main.rb */,
 			);

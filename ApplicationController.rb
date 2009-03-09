@@ -3,7 +3,7 @@
 #  LazyMail
 #
 #  Created by Zack Cerza on 3/4/09.
-#  Copyright (c) 2009 __MyCompanyName__. All rights reserved.
+#  Copyright (c) 2009 Zack Cerza. All rights reserved.
 #
 
 require 'osx/cocoa'
