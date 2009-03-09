@@ -1,3 +1,11 @@
+#
+#  ApplicationController.rb
+#  LazyMail
+#
+#  Created by Zack Cerza on 3/8/09.
+#  Copyright (c) 2009 Zack Cerza. All rights reserved.
+#
+
 class LMPreferencesWindow < NSWindow
 	ib_outlet :username
 	ib_outlet :password
