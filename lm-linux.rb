@@ -1,3 +1,4 @@
+require 'idler'
 require 'notifier'
 require 'linux_notifier'
 require 'rubygems'
