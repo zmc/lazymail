@@ -31,12 +31,11 @@ class ApplicationController < OSX::NSObject
 		#@status_item.setToolTip("tooltip")
 		@status_item.setTitle("0")
 
-		@notifier = nil
+		@notifier = MacNotifier.new(self)
 		@idler = nil
     end
 	
 	def setupAccount(user, password)
-		@notifier = MacNotifier.new(self)
 		@idler.disconnect if @idler != nil
 		@idler = Idler.new(user, password)
 		@idler.notifier = @notifier
