@@ -4,9 +4,12 @@ class LMPreferencesWindow < NSWindow
 	ib_outlet :application_controller
 	ib_action :save
 	
+	attr_reader :username
+	
 	def save
-		orderOut(nil)
-		@application_controller.setupAccount(String.new(@username.stringValue), 
+		if @application_controller.setupAccount(String.new(@username.stringValue), 
 			String.new(@password.stringValue))
+			orderOut(nil)
+		end
 	end
 end

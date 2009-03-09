@@ -15,6 +15,7 @@ class ApplicationController < OSX::NSObject
 
     ib_outlet :menu
 	ib_outlet :preferencesWindow
+	ib_action :openInbox
 
     def awakeFromNib
         @status_bar = NSStatusBar.systemStatusBar
@@ -37,9 +38,20 @@ class ApplicationController < OSX::NSObject
 	
 	def setupAccount(user, password)
 		@idler.disconnect if @idler != nil
-		@idler = Idler.new(user, password)
+		begin
+			@idler = Idler.new(user, password)
+		rescue Net::IMAP::NoResponseError
+			alert = NSAlert.alloc.init
+			alert.addButtonWithTitle("OK")
+			alert.setMessageText("Unable to connect.")
+			alert.setInformativeText("Your login or password may be incorrect.")
+			alert.setAlertStyle(NSWarningAlertStyle)
+			alert.runModal
+			return false
+		end
 		@idler.notifier = @notifier
 		@idler.check
+		return true
 	end
 	
 	def notify(msgs)
@@ -54,5 +66,10 @@ class ApplicationController < OSX::NSObject
 	
 	def applicationWillTerminate(notification)
 		@imap.disconnect if @imap != nil
+	end
+	
+	def openInbox
+		url = "http://mail.google.com/a/#{@preferencesWindow.username.stringValue.split('@')[1]}"
+		NSWorkspace.sharedWorkspace.openURL(NSURL.URLWithString(url))
 	end
 end
