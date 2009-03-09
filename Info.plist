@@ -23,7 +23,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.apple.rubycocoa.LazyMailApp</string>
+	<string>org.cerza.LazyMailApp</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 </dict>
