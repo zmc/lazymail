@@ -20,8 +20,8 @@ class MacNotifier < Notifier
             end
         end
         body.strip!
-        return if body.length == 0
 		@appController.notify(msgs)
+        return if body.length == 0
         @growl.notify(@type, @@title, body)
     end
 end
