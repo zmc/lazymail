@@ -1,5 +1,5 @@
 #
-#  ApplicationController.rb
+#  LMPreferencesWindow.rb
 #  LazyMail
 #
 #  Created by Zack Cerza on 3/8/09.
