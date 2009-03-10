@@ -16,6 +16,7 @@ class ApplicationController < OSX::NSObject
     ib_outlet :menu
     ib_outlet :preferencesWindow
     ib_action :openInbox
+    ib_action :checkMail
 
     def awakeFromNib
         @status_bar = NSStatusBar.systemStatusBar
@@ -36,6 +37,13 @@ class ApplicationController < OSX::NSObject
         @idler = nil
     end
     
+    def validateMenuItem(menuItem)
+        if ["Open Inbox", "Check Now"].member? menuItem.title
+            return false unless @preferencesWindow.accountSaved
+        end
+        true
+    end
+    
     def setupAccount(user, password)
         @idler.disconnect if @idler != nil
         begin
@@ -50,8 +58,12 @@ class ApplicationController < OSX::NSObject
             return false
         end
         @idler.notifier = @notifier
-        @idler.check
+        checkMail
         return true
+    end
+    
+    def checkMail
+        @idler.check
     end
     
     def notify(msgs)

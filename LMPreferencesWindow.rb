@@ -12,11 +12,16 @@ class LMPreferencesWindow < NSWindow
     ib_outlet :application_controller
     ib_action :save
     
-    attr_reader :username
+    attr_reader :username, :accountSaved
+    
+    def awakeFromNib
+        @accountSaved = false
+    end
     
     def save
         if @application_controller.setupAccount(String.new(@username.stringValue), 
             String.new(@password.stringValue))
+            @accountSaved = true
             orderOut(nil)
         end
     end
