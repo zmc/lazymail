@@ -11,12 +11,19 @@ class LMPreferencesWindow < NSWindow
     ib_outlet :password
     ib_outlet :application_controller
     ib_action :save
+    ib_action :reallyMakeKeyAndOrderFront
     
     attr_reader :username, :accountSaved
     
     def awakeFromNib
         @accountSaved = false
     end
+    
+    def reallyMakeKeyAndOrderFront
+        NSApp.activateIgnoringOtherApps(true)
+        orderFrontRegardless
+        #makeKeyAndOrderFront
+    end        
     
     def save
         if @application_controller.setupAccount(String.new(@username.stringValue), 
