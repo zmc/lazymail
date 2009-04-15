@@ -5,12 +5,16 @@ class LinuxNotifier < Notifier
     def initialize
         super
         @icon = LMGtkIcon.new
+        @maxNewMsgs = 5
     end
 
     def notify(msgs)
         body = ""
         tooltip = ""
+        count = 0
         msgs.each do |msg|
+            count += 1
+            break if @maxNewMsgs != 0 and count > @maxNewMsgs
             msg_s = "#{msg.to_s}\n\n"
             tooltip += msg_s
             if not @seen.member? msg.uid
