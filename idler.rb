@@ -1,10 +1,11 @@
 require 'net_imap_idle'
 require 'time'
 require 'messageinfo'
+require 'connectionmonitor'
 
 class Idler
-    attr_reader :imap, :idle, :unseen, :msgInfo, :notifier
-    attr_writer :notifier
+    attr_reader :imap, :idle, :unseen, :msgInfo, :notifier, :monitor
+    attr_writer :notifier, :monitor
     @@host = 'imap.gmail.com'
     @@port = 993
 
@@ -16,7 +17,8 @@ class Idler
         @unseen = 0
         @msgInfo = {}
         @notifier = nil
-        addHandler
+        @monitor = ConnectionMonitor.new
+        addMailHandler
     end
 
     def login
@@ -40,7 +42,21 @@ class Idler
         @idle = false
     end
 
-    def addHandler
+    def monitor=(monitor)
+        @monitor = monitor
+        addConnectionHandler if not @monitor.monitoring?
+    end
+
+    def addConnectionHandler
+        @monitor.onChange do |online|
+            if online
+                login
+                check
+            end
+        end
+    end
+
+    def addMailHandler
         @imap.add_response_handler { |resp|
             puts "#{resp.class} => #{resp.data}" if $DEBUG
             if (resp.kind_of?(Net::IMAP::UntaggedResponse) and 
